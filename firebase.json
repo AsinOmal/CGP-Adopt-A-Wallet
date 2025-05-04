@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"adoptawallet","appId":"1:226464748993:android:b5fc5d196a113c1be9cb40","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"adoptawallet","configurations":{"android":"1:226464748993:android:b5fc5d196a113c1be9cb40","ios":"1:226464748993:ios:84d5107addc8c2b1e9cb40"}}}}}}

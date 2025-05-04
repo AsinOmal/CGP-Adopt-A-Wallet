@@ -1,0 +1,2 @@
+D:/flutter-projects/financial_manager_app_flutter-production/android/app/.cxx/Debug/3u512p4q/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/flutter-projects/financial_manager_app_flutter-production/android/app/.cxx/Debug/3u512p4q/armeabi-v7a/CMakeFiles/rebuild_cache.dir

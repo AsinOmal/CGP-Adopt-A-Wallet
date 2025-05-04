@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "226464748993",
+    "project_id": "adoptawallet",
+    "storage_bucket": "adoptawallet.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226464748993:android:b5fc5d196a113c1be9cb40",
+        "android_client_info": {
+          "package_name": "com.example.fin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226464748993-9vloikql628eri4drt7o3vh1k7d1v945.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fin",
+            "certificate_hash": "d6cb4f3993357a84459eae3ca282b8a8f8297c54"
+          }
+        },
+        {
+          "client_id": "226464748993-3qoo6q955qnlrnfpojpd3di8v6hjlm89.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA56xyOQx5PLiAxGVfmhmXmtgHKPWeJUos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226464748993-3qoo6q955qnlrnfpojpd3di8v6hjlm89.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "226464748993-aj0nb9g7fmqp0fjjm3bc8s06epmm2qi4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.financialApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
