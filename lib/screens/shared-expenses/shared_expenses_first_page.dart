@@ -1,4 +1,4 @@
-import 'package:financial_app/components/simple_button.dart';
+import 'package:financial_app/screens/shared-expenses/create_a_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -31,13 +31,21 @@ class _GroupSharingFirstState extends State<GroupSharingFirst> {
         ),
       ),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                "Manage your shared expenses with friends and family",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
               const SizedBox(height: 20),
               Expanded(
                 child: ListView.separated(
@@ -55,7 +63,13 @@ class _GroupSharingFirstState extends State<GroupSharingFirst> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF456EFE),
         foregroundColor: Colors.white,
-        onPressed: addGroup,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return AddGroupScreen();
+            },
+          ));
+        },
         child: const Icon(Icons.add),
       ),
     );
