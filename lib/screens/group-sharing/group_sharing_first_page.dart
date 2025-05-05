@@ -1,5 +1,6 @@
 import 'package:financial_app/components/simple_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class GroupSharingFirst extends StatefulWidget {
   static const routeName = '/group-sharing-first';
@@ -11,103 +12,98 @@ class GroupSharingFirst extends StatefulWidget {
 }
 
 class _GroupSharingFirstState extends State<GroupSharingFirst> {
+  final List<String> groups = ['Apartment 5B', 'Trip to Kandy', 'Project Team'];
+
+  void addGroup() {
+    setState(() {
+      groups.add('Group ${groups.length + 1}');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> groups = [];
-
-    void addGroup() {
-      setState(() {
-        groups.add('Group ${groups.length + 1}');
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          "Group Budget Sharing",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF456EFE),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              "Add groups to share your budget with others",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 30),
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildGroupButton("Kandy Trip"),
-                  const SizedBox(height: 15),
-                  _buildGroupButton("Apartment Bills"),
-                  const SizedBox(height: 15),
-                  _buildGroupButton("Birthday Party"),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            SimpleButton(
-              data: 'Add a Group',
-              onPressed: addGroup,
-            ),
-          ],
+        title: const Text(
+          "Shared Expenses",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
         ),
+      ),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: groups.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    return _buildGroupCard(groups[index], index);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF456EFE),
+        foregroundColor: Colors.white,
+        onPressed: addGroup,
+        child: const Icon(Icons.add),
       ),
     );
   }
 
-  Widget _buildGroupButton(String title) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: 3,
-        backgroundColor: Colors.white,
-        foregroundColor:const Color(0xFF456EFE),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+  Widget _buildGroupCard(String title, int index) {
+    return Slidable(
+      key: ValueKey(title),
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        extentRatio: 0.25,
+        children: [
+          SlidableAction(
+            onPressed: (_) {
+              setState(() {
+                groups.removeAt(index);
+              });
+            },
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+          ),
+        ],
       ),
-      onPressed: () {},
-      child: Text(title),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 185, 184, 184).withOpacity(0.4),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.10),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            )
+          ],
+        ),
+        child: ListTile(
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+          onTap: () {}, // Add navigation or functionality here
+        ),
+      ),
     );
   }
 }
-//! Groups nattan, Add A Group kiyala pennala, button ekak click karama group ekak add karanna hdnawa
-
-//! nattan group list eka pennanawa.
-// body: groups.isEmpty
-//           ? const Center(
-//               child: Text(
-//                 'Add a Group',
-//                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//               ),
-//             )
-//           : ListView.builder(
-//               itemCount: groups.length,
-//               itemBuilder: (context, index) {
-//                 return ListTile(title: Text(groups[index]));
-//               },
-//             ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {
-//           addGroup;
-//         },
-//         child: const Icon(Icons.add),
-//
