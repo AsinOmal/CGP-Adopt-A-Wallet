@@ -1,4 +1,5 @@
 import 'package:financial_app/screens/shared-expenses/create_a_group.dart';
+import 'package:financial_app/screens/shared-expenses/group_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -115,7 +116,13 @@ class _GroupSharingFirstState extends State<GroupSharingFirst> {
             ),
           ),
           trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-          onTap: () {}, // Add navigation or functionality here
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return GroupDetailsScreen();
+              },
+            ));
+          }, // Add navigation or functionality here
         ),
       ),
     );
