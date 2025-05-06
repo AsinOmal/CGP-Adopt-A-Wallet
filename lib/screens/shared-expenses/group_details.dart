@@ -1,3 +1,4 @@
+import 'package:financial_app/screens/shared-expenses/add_expense_screen.dart';
 import 'package:flutter/material.dart';
 
 class GroupDetailsScreen extends StatelessWidget {
@@ -71,11 +72,11 @@ class GroupDetailsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _button('Invite'),
+                  _button(context, 'Invite'),
                   const SizedBox(width: 8),
-                  _button('Add Expense'),
+                  _button(context, 'Add Expense'),
                   const SizedBox(width: 8),
-                  _button('Settle',
+                  _button(context, 'Settle',
                       icon: Icons.construction), // Replace icon if needed
                 ],
               ),
@@ -96,9 +97,15 @@ class GroupDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _button(String label, {IconData? icon}) {
+  Widget _button(BuildContext context, String label, {IconData? icon}) {
     return ElevatedButton.icon(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return AddExpenseScreen();
+          },
+        ));
+      },
       icon: icon != null ? Icon(icon) : const Icon(Icons.add),
       label: Text(
         label,
