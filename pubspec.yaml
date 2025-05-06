@@ -81,7 +81,7 @@ dependencies:
 
   #for feedback
   feedback: ^3.1.0
-  shake: ^2.2.0
+  shake: ^3.0.0
   flutter_email_sender: ^6.0.3
 
   #firebase

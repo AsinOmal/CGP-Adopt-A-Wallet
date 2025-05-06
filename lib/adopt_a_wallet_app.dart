@@ -65,7 +65,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
       FirebaseAuth.instance.authStateChanges().first.then((user) {
         currentUser = user;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _routeUserForAuth(user);
+          //_routeUserForAuth(user);
         });
       });
     }
@@ -102,7 +102,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
       authRepository: authRepository,
     );
     shakeDetector = ShakeDetector.autoStart(
-      onPhoneShake: () {
+      onPhoneShake: (ShakeEvent event) {
         BetterFeedback.of(context).show((UserFeedback feedback) async {
           BetterFeedback.of(context).hide();
           try {
