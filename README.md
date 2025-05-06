@@ -12,7 +12,6 @@ The **Financial Manager App** is designed to help users manage their finances ef
 - **Multi-language Support**: The app offers both Sinhala and English languages.
 - **Secure Data**: All user data is encrypted to ensure the highest level of privacy and security.
 - **Currency Converter**: Built-in converter for real-time currency exchange rates.
-- **Custom Notifications**: Receive customizable notifications for important financial updates.
   
 
 ## Getting Started
