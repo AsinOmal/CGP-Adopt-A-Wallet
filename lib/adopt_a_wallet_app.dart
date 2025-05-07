@@ -6,6 +6,7 @@ import 'package:financial_app/blocs/budget/budget_bloc.dart';
 import 'package:financial_app/blocs/card/card_bloc.dart';
 import 'package:financial_app/blocs/goal/goal_bloc.dart';
 import 'package:financial_app/blocs/reminder/reminder_bloc.dart';
+import 'package:financial_app/blocs/shared_expense/shared_expense_bloc.dart';
 import 'package:financial_app/blocs/transaction/transaction_bloc.dart';
 import 'package:financial_app/data/keys.dart';
 import 'package:financial_app/language/language_provider.dart';
@@ -16,6 +17,7 @@ import 'package:financial_app/repositories/budget/budget_repository.dart';
 import 'package:financial_app/repositories/card/card_repository.dart';
 import 'package:financial_app/repositories/goal/goal_repository.dart';
 import 'package:financial_app/repositories/reminder/reminder_repository.dart';
+import 'package:financial_app/repositories/shared_expenses/shared_expenses_repository.dart';
 import 'package:financial_app/repositories/transaction/transaction_repository.dart';
 import 'package:financial_app/screens/auth/login_page.dart';
 import 'package:financial_app/screens/auth/signup_page.dart';
@@ -65,7 +67,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
       FirebaseAuth.instance.authStateChanges().first.then((user) {
         currentUser = user;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          //_routeUserForAuth(user);
+          _routeUserForAuth(user);
         });
       });
     }
@@ -95,6 +97,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
     var reminderRepository = ReminderRepository();
     var budgetRepository = BudgetRepository();
     var cardRepository = CardRepository();
+    var sharedExpenseRepository = SharedExpensesRepository();
     var transactionBloc = TransactionBloc(transactionRepository);
 
     var smsService = SmsService(
@@ -136,10 +139,10 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
     final themeProvider = Provider.of<ThemeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
     var app = MaterialApp(
-      home: const GroupSharingFirst(),
+      //home: const GroupSharingFirst(),
       navigatorKey: globalNavigatorKey,
       debugShowCheckedModeBanner: false,
-      //onGenerateRoute: getPageRouteSettings(),
+      onGenerateRoute: getPageRouteSettings(),
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: themeProvider.themeMode,
@@ -205,6 +208,9 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
         ),
         RepositoryProvider(
           create: (context) => CardBloc(cardRepository),
+        ),
+        RepositoryProvider(
+          create: (context) => SharedExpenseBloc(sharedExpenseRepository),
         ),
         Provider(create: (context) => smsService),
       ],

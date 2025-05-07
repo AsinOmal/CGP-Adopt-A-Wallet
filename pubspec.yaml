@@ -145,6 +145,9 @@ dependencies:
   local_auth: ^2.1.7
   supabase_flutter: ^2.8.3
 
+  #enviroment variables
+  flutter_dotenv: ^5.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -178,6 +181,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - .env
     - assets/
     - assets/icons/
     - assets/lang/

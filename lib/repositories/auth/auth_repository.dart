@@ -48,7 +48,7 @@ class AuthRepository extends BaseAuthRepository {
           name: name,
           email: email,
           profileImageURL:
-              'https://wlujgctqyxyyegjttlce.supabase.co/storage/v1/object/public/users_propics/users_propics/default_img.png',
+              'https://nlekhbkoqtatppkfocoo.supabase.co/storage/v1/object/public/users-propics//default_img.png',
           createdAt: Timestamp.now(),
         );
         await addUserIfNotExists(newUser);

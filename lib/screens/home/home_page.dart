@@ -8,16 +8,20 @@ import 'package:financial_app/navigators/navigation_keys.dart';
 import 'package:financial_app/screens/convertor/money_convertor.dart';
 import 'package:financial_app/screens/dashboard/dashboard_page.dart';
 import 'package:financial_app/screens/payment-pages/bill_payment_page.dart';
+// import 'package:financial_app/screens/payment-pages/bill_payment_page.dart';
 import 'package:financial_app/screens/profile-pages/account_info/account_info_page.dart';
 import 'package:financial_app/screens/profile-pages/privacy_policy/privacy_policy_page.dart';
 import 'package:financial_app/screens/cards/cards_page.dart';
 import 'package:financial_app/screens/profile-pages/rating/rating_dialog.dart';
 import 'package:financial_app/screens/profile-pages/settings/settings_page.dart';
+import 'package:financial_app/screens/shared-expenses/create_a_group.dart';
+import 'package:financial_app/screens/shared-expenses/shared_expenses_first_page.dart';
 import 'package:financial_app/screens/transactions/transaction_type_page.dart';
 import 'package:financial_app/services/feedback_repository.dart';
 import 'package:financial_app/services/profile_image_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
@@ -279,22 +283,26 @@ class _HomePageState extends State<HomePage> {
                   child: CircleAvatar(
                     radius: 20.0,
                     backgroundColor: const Color.fromARGB(255, 226, 226, 226),
-                    backgroundImage: NetworkImage(_url ??
-                        'https://wlujgctqyxyyegjttlce.supabase.co/storage/v1/object/public/users_propics/users_propics/default_img.png'),
+                    backgroundImage: NetworkImage(
+                      _url ??
+                          dotenv.env['DEFAULT_IMAGE_URL'] ??
+                          'https://nlekhbkoqtatppkfocoo.supabase.co/storage/v1/object/public/users-propics//default_img.png',
+                    ),
                   ),
                 ),
               ),
             )
           ],
         ),
-        floatingActionButton: _currentIndex == 0
+        floatingActionButton: _currentIndex == 0 || _currentIndex == 2
             ? FloatingActionButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TransactionTypePage(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => getPageByIndex(_currentIndex),
+                    ),
+                  );
                 },
                 backgroundColor: const Color(0xFF456EFE),
                 shape: const CircleBorder(),
@@ -399,5 +407,16 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+}
+
+Widget getPageByIndex(int index) {
+  switch (index) {
+    case 0:
+      return const TransactionTypePage();
+    case 2:
+      return const AddGroupScreen();
+    default:
+      return const Placeholder();
   }
 }
