@@ -22,7 +22,6 @@ import 'package:financial_app/repositories/transaction/transaction_repository.da
 import 'package:financial_app/screens/auth/login_page.dart';
 import 'package:financial_app/screens/auth/signup_page.dart';
 import 'package:financial_app/screens/auth/forgot_password.dart';
-import 'package:financial_app/screens/shared-expenses/shared_expenses_first_page.dart';
 import 'package:financial_app/screens/home/home_page.dart';
 import 'package:financial_app/screens/onboard/onboarding_page.dart';
 import 'package:financial_app/screens/splash_screen/splash_screen.dart';

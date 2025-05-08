@@ -1,4 +1,3 @@
-import 'package:financial_app/screens/shared-expenses/create_a_group.dart';
 import 'package:financial_app/screens/shared-expenses/group_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
