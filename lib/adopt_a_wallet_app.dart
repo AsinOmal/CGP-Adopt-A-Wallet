@@ -139,7 +139,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
     final themeProvider = Provider.of<ThemeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
     var app = MaterialApp(
-      //home: const GroupSharingFirst(),
+      //home: const SharedExpensePage(),
       navigatorKey: globalNavigatorKey,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: getPageRouteSettings(),

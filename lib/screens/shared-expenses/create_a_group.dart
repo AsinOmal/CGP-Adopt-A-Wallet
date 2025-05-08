@@ -24,7 +24,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   @override
   void initState() {
     super.initState();
-    _sharedExpenseBloc = BlocProvider.of<SharedExpenseBloc>(context);
+    _sharedExpenseBloc = RepositoryProvider.of<SharedExpenseBloc>(context);
   }
 
   @override

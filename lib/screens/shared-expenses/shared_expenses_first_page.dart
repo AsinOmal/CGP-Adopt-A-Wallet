@@ -3,16 +3,16 @@ import 'package:financial_app/screens/shared-expenses/group_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class GroupSharingFirst extends StatefulWidget {
+class SharedExpensePage extends StatefulWidget {
   static const routeName = '/group-sharing-first';
 
-  const GroupSharingFirst({super.key});
+  const SharedExpensePage({super.key});
 
   @override
-  State<GroupSharingFirst> createState() => _GroupSharingFirstState();
+  State<SharedExpensePage> createState() => _SharedExpensePageState();
 }
 
-class _GroupSharingFirstState extends State<GroupSharingFirst> {
+class _SharedExpensePageState extends State<SharedExpensePage> {
   final List<String> groups = ['Apartment 5B', 'Trip to Kandy', 'Project Team'];
 
   void addGroup() {
@@ -67,7 +67,7 @@ class _GroupSharingFirstState extends State<GroupSharingFirst> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return AddGroupScreen();
+              return const AddGroupScreen();
             },
           ));
         },
@@ -117,11 +117,12 @@ class _GroupSharingFirstState extends State<GroupSharingFirst> {
           ),
           trailing: const Icon(Icons.arrow_forward_ios, size: 18),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return GroupDetailsScreen();
-              },
-            ));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  GroupDetailsScreen(),
+              ),
+            );
           }, // Add navigation or functionality here
         ),
       ),

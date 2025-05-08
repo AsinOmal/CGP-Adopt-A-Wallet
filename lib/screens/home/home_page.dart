@@ -262,7 +262,8 @@ class _HomePageState extends State<HomePage> {
               children: const [
                 Dashboard(),
                 CardsPage(),
-                BillPayScreen(),
+                // Wrap SharedExpensePage with HeroMode to disable Hero animations
+                HeroMode(enabled: false, child: SharedExpensePage()),
                 MoneyConveror(),
               ],
             ),
@@ -300,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => getPageByIndex(_currentIndex),
+                      builder: (context) => AddGroupScreen(),
                     ),
                   );
                 },
