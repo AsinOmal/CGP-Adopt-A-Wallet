@@ -1,4 +1,6 @@
 import 'package:financial_app/screens/shared-expenses/add_expense_screen.dart';
+import 'package:financial_app/screens/shared-expenses/invite_members.dart';
+import 'package:financial_app/screens/shared-expenses/settle_screen.dart';
 import 'package:flutter/material.dart';
 
 class GroupDetailsScreen extends StatelessWidget {
@@ -72,11 +74,11 @@ class GroupDetailsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _button(context, 'Invite'),
+                  _buttonInvite(context, 'Invite'),
                   const SizedBox(width: 8),
-                  _button(context, 'Add Expense'),
+                  _buttonAddExpense(context, 'Add Expense'),
                   const SizedBox(width: 8),
-                  _button(context, 'Settle',
+                  _buttonSettleScreen(context, 'Settle',
                       icon: Icons.construction), // Replace icon if needed
                 ],
               ),
@@ -97,12 +99,48 @@ class GroupDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _button(BuildContext context, String label, {IconData? icon}) {
+  Widget _buttonInvite(BuildContext context, String label, {IconData? icon}) {
     return ElevatedButton.icon(
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return AddExpenseScreen();
+            return const InviteMemberScreen();
+          },
+        ));
+      },
+      icon: icon != null ? Icon(icon) : const Icon(Icons.add),
+      label: Text(
+        label,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buttonAddExpense(BuildContext context, String label,
+      {IconData? icon}) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return const AddExpenseScreen();
+          },
+        ));
+      },
+      icon: icon != null ? Icon(icon) : const Icon(Icons.add),
+      label: Text(
+        label,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buttonSettleScreen(BuildContext context, String label,
+      {IconData? icon}) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return const SettleScreen();
           },
         ));
       },

@@ -57,10 +57,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
             Navigator.of(context).pop(); // Close the add group screen
           } else if (state is SharedExpenseError) {
             Navigator.of(context).pop(); // Close the loading dialog
-            CustomSnackBar.showErrorSnackBar(   
-              state.errorMessage,
-              context
-            );
+            CustomSnackBar.showErrorSnackBar(state.errorMessage, context);
           }
         },
         child: Padding(
@@ -98,8 +95,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text('Invite Friends or Family',
-                  style: TextStyle(fontWeight: FontWeight.w600)),
+
               //! meka kohomada hto karanne, existing users lata invite karanna hadanwada
               const SizedBox(height: 8),
               const SizedBox(height: 30),

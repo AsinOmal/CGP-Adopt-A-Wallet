@@ -61,18 +61,6 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF456EFE),
-        foregroundColor: Colors.white,
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return const AddGroupScreen();
-            },
-          ));
-        },
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
@@ -120,7 +108,7 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>  GroupDetailsScreen(),
+                builder: (context) => GroupDetailsScreen(),
               ),
             );
           }, // Add navigation or functionality here
