@@ -6,6 +6,7 @@ import 'package:financial_app/models/user.dart';
 import 'package:financial_app/repositories/auth/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -184,7 +185,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
                                 ? FileImage(_image!)
                                 : NetworkImage(
                                     url ??
-                                        'https://wlujgctqyxyyegjttlce.supabase.co/storage/v1/object/public/users_propics/users_propics/default_img.png',
+                                        dotenv.env['DEFAULT_IMAGE_URL']!,
                                   ),
                           ),
                           Positioned(
