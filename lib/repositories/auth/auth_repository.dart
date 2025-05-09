@@ -263,4 +263,20 @@ class AuthRepository extends BaseAuthRepository {
     await ProfileImageService().saveImageUrl(url);
     return url;
   }
+  
+  @override
+  Future<List<String>> fetchUserNames(List<String> userIDs) {
+    return _usersCollection
+        .where(FieldPath.documentId, whereIn: userIDs)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      return snapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['name'] as String;
+      }).toList();
+    });
+    
+  }
+
+
 }

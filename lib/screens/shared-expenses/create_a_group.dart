@@ -3,6 +3,7 @@ import 'package:financial_app/blocs/shared_expense/shared_expense_bloc.dart';
 import 'package:financial_app/components/custome_snackbar.dart';
 import 'package:financial_app/components/simple_button.dart';
 import 'package:financial_app/models/group.dart';
+import 'package:financial_app/repositories/auth/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -20,11 +21,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   final TextEditingController descriptionController = TextEditingController();
 
   late SharedExpenseBloc _sharedExpenseBloc;
+  late AuthRepository _authRepository;
 
   @override
   void initState() {
     super.initState();
     _sharedExpenseBloc = RepositoryProvider.of<SharedExpenseBloc>(context);
+    _authRepository = RepositoryProvider.of<AuthRepository>(context);
   }
 
   @override
@@ -55,6 +58,8 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
           } else if (state is SharedExpenseCreated) {
             Navigator.of(context).pop(); // Close the loading dialog
             Navigator.of(context).pop(); // Close the add group screen
+            _sharedExpenseBloc.add(SharedExpenseFetchGroupsRequest(
+        userId: _authRepository.userID));
           } else if (state is SharedExpenseError) {
             Navigator.of(context).pop(); // Close the loading dialog
             CustomSnackBar.showErrorSnackBar(state.errorMessage, context);
@@ -115,8 +120,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                           name: nameController.text,
                           description: descriptionController.text,
                           memberIds: [
-                            'user1', // ! Replace with actual user ID
-                            'user2', // ! Replace with actual user ID
+                            _authRepository.userID
                           ],
                           createdAt: Timestamp.now(),
                         ),

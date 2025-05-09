@@ -1,30 +1,90 @@
+import 'package:financial_app/blocs/auth/auth_bloc.dart';
+import 'package:financial_app/blocs/shared_expense/shared_expense_bloc.dart';
+import 'package:financial_app/models/group.dart';
+import 'package:financial_app/models/group_expense.dart';
 import 'package:financial_app/screens/shared-expenses/add_expense_screen.dart';
 import 'package:financial_app/screens/shared-expenses/invite_members.dart';
 import 'package:financial_app/screens/shared-expenses/settle_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GroupDetailsScreen extends StatelessWidget {
+class GroupDetailsScreen extends StatefulWidget {
   static const routeName = '/group-details';
 
-  final List<String> members = ['Asin', 'Sarah', 'Jason'];
-  final List<Map<String, dynamic>> expenses = [
-    {'title': 'Groceries', 'amount': 3000, 'payer': 'Asin'},
-    {'title': 'Electricity Bill', 'amount': 1200, 'payer': 'Sarah'},
-  ];
+  final Group group;
+
+  const GroupDetailsScreen({super.key, required this.group});
+
+  @override
+  State<GroupDetailsScreen> createState() => _GroupDetailsScreenState();
+}
+
+class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
+  final List<String> members = [];
+
+  // create list of object of each members with their name and id
+  final List<Map<String, dynamic>> membersDetails = [];
+
+  // Update to use GroupExpense objects instead of Map
+  List<GroupExpense> expenses = [];
+
   final List<Map<String, dynamic>> balances = [
     {'from': 'Jason', 'to': 'Asin', 'amount': 1500},
     {'from': 'Sarah', 'to': 'Jason', 'amount': 600},
   ];
 
-  GroupDetailsScreen({super.key});
+  late AuthBloc _authBloc;
+  late SharedExpenseBloc _sharedExpenseBloc;
+
+  @override
+  void initState() {
+    _authBloc = RepositoryProvider.of<AuthBloc>(context);
+    _sharedExpenseBloc = RepositoryProvider.of<SharedExpenseBloc>(context);
+
+    // Fetch user names
+    _authBloc.add(AuthFetchUserNames(userIDs: widget.group.memberIds));
+
+    // Fetch group expenses
+    _sharedExpenseBloc
+        .add(SharedExpensesFetchRequest(groupId: widget.group.id));
+
+    _authBloc.stream.listen((state) {
+      if (state is AuthUserNamesFetched) {
+        setState(() {
+          members.clear();
+          members.addAll(state.userNames);
+        });
+        // Create a list of members with their names and ids
+        membersDetails.clear();
+        for (int i = 0; i < widget.group.memberIds.length; i++) {
+          membersDetails.add({
+            'name': state.userNames[i],
+            'id': widget.group.memberIds[i],
+          });
+        }
+      }
+    });
+
+    // Listen to shared expense bloc states
+    _sharedExpenseBloc.stream.listen((state) {
+      if (state is SharedExpenseFetched) {
+        setState(() {
+          expenses = state.groupExpenses;
+        });
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final group = widget.group;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          '{Group Name}',
-          style: TextStyle(fontSize: 20),
+        title: Text(
+          group.name,
+          style: const TextStyle(fontSize: 20),
         ),
         centerTitle: true,
       ),
@@ -74,7 +134,7 @@ class GroupDetailsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buttonInvite(context, 'Invite'),
+                  _buttonInvite(context, 'Invite', groupId: group.id),
                   const SizedBox(width: 8),
                   _buttonAddExpense(context, 'Add Expense'),
                   const SizedBox(width: 8),
@@ -87,24 +147,44 @@ class GroupDetailsScreen extends StatelessWidget {
             const Text('Expenses',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             const SizedBox(height: 8),
-            ...expenses.map((e) => _expenseItem(e)),
-            const Divider(height: 40),
-            const Text('Remaining Balances',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            const SizedBox(height: 8),
-            ...balances.map((b) => _balanceItem(b)),
+            BlocBuilder<SharedExpenseBloc, SharedExpenseState>(
+              buildWhen: (previous, current) =>
+                  current is SharedExpenseFetchSharedExpensesLoading ||
+                  current is SharedExpenseFetched ||
+                  current is SharedExpenseFetchSharedExpensesError,
+              builder: (context, state) {
+                if (state is SharedExpenseFetchSharedExpensesLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is SharedExpenseFetched) {
+                  expenses = state.groupExpenses;
+                  if (expenses.isEmpty) {
+                    return const Text('No expenses yet');
+                  }
+                  return Column(
+                    children: expenses.map((e) => _expenseItem(e)).toList(),
+                  );
+                } else if (state is SharedExpenseFetchSharedExpensesError) {
+                  return Text('Error: ${state.errorMessage}');
+                } else {
+                  return const Text('No expenses yet');
+                }
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buttonInvite(BuildContext context, String label, {IconData? icon}) {
+  Widget _buttonInvite(BuildContext context, String label,
+      {IconData? icon, required String groupId}) {
     return ElevatedButton.icon(
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return const InviteMemberScreen();
+            return InviteMemberScreen(
+              groupId: groupId,
+            );
           },
         ));
       },
@@ -116,13 +196,19 @@ class GroupDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buttonAddExpense(BuildContext context, String label,
-      {IconData? icon}) {
+  Widget _buttonAddExpense(
+    BuildContext context,
+    String label, {
+    IconData? icon,
+  }) {
     return ElevatedButton.icon(
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return const AddExpenseScreen();
+            return AddExpenseScreen(
+              membersDetails: membersDetails,
+              groupId: widget.group.id,
+            );
           },
         ));
       },
@@ -152,15 +238,25 @@ class GroupDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _expenseItem(Map<String, dynamic> e) {
+  // Update the expense item widget to use GroupExpense instead of Map
+  Widget _expenseItem(GroupExpense expense) {
+    // Find the name of the person who paid
+    String payerName = 'Unknown';
+    for (var member in membersDetails) {
+      if (member['id'] == expense.paidBy) {
+        payerName = member['name'];
+        break;
+      }
+    }
+
     return ListTile(
-      title:
-          Text(e['title'], style: const TextStyle(fontWeight: FontWeight.w600)),
+      title: Text(expense.description,
+          style: const TextStyle(fontWeight: FontWeight.w600)),
       leading: const Icon(Icons.monetization_on),
-      subtitle: Text('Paid by ${e['payer']}',
+      subtitle: Text('Paid by $payerName',
           style:
               const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
-      trailing: Text('Rs. ${e['amount']}'),
+      trailing: Text('Rs. ${expense.amount.toStringAsFixed(2)}'),
       contentPadding: EdgeInsets.zero,
     );
   }

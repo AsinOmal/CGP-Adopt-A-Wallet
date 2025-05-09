@@ -16,3 +16,69 @@ class SharedExpenseCreateRequest extends SharedExpenseEvent {
   @override
   List<Object> get props => [group];
 }
+
+class SharedExpenseFetchGroupsRequest extends SharedExpenseEvent {
+  final String userId;
+  const SharedExpenseFetchGroupsRequest({
+    required this.userId,
+  });
+
+  @override
+  List<Object> get props => [userId];
+}
+
+class SharedExpenseFetchUserByEmailRequest extends SharedExpenseEvent {
+  final String email;
+  final String groupId;
+  const SharedExpenseFetchUserByEmailRequest({
+    required this.email,
+    required this.groupId,
+  });
+
+  @override
+  List<Object> get props => [email, groupId];
+}
+
+class SharedExpenseSendInviteRequest extends SharedExpenseEvent {
+  final String email;
+  final String groupId;
+  const SharedExpenseSendInviteRequest({
+    required this.email,
+    required this.groupId,
+  });
+
+  @override
+  List<Object> get props => [email, groupId];
+}
+
+class SharedExpenseAddExpenseRequest extends SharedExpenseEvent {
+  final GroupExpense groupExpense;
+  final String groupId;
+  const SharedExpenseAddExpenseRequest({
+    required this.groupExpense,
+    required this.groupId,
+  });
+
+  @override
+  List<Object> get props => [groupExpense, groupId];
+}
+
+class SharedExpensesFetchRequest extends SharedExpenseEvent {
+  final String groupId;
+  const SharedExpensesFetchRequest({
+    required this.groupId,
+  });
+
+  @override
+  List<Object> get props => [groupId];
+}
+
+class SharedExpenseDeleteGroupRequest extends SharedExpenseEvent {
+  final String groupId;
+  const SharedExpenseDeleteGroupRequest({
+    required this.groupId,
+  });
+
+  @override
+  List<Object> get props => [groupId];
+}
