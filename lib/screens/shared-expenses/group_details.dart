@@ -2,6 +2,7 @@ import 'package:financial_app/blocs/auth/auth_bloc.dart';
 import 'package:financial_app/blocs/shared_expense/shared_expense_bloc.dart';
 import 'package:financial_app/models/group.dart';
 import 'package:financial_app/models/group_expense.dart';
+import 'package:financial_app/repositories/auth/auth_repository.dart';
 import 'package:financial_app/screens/shared-expenses/add_expense_screen.dart';
 import 'package:financial_app/screens/shared-expenses/invite_members.dart';
 import 'package:financial_app/screens/shared-expenses/settle_screen.dart';
@@ -35,6 +36,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
 
   late AuthBloc _authBloc;
   late SharedExpenseBloc _sharedExpenseBloc;
+  late AuthRepository _authRepository;
 
   @override
   void initState() {
@@ -73,8 +75,13 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         });
       }
     });
-
+    _authRepository = RepositoryProvider.of<AuthRepository>(context);
     super.initState();
+  }
+
+  void _refreshMembers() {
+    // Fetch user names again
+    _authBloc.add(AuthFetchUserNames(userIDs: widget.group.memberIds));
   }
 
   @override
@@ -87,14 +94,33 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           style: const TextStyle(fontSize: 20),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            _sharedExpenseBloc.add(SharedExpenseFetchGroupsRequest(
+                userId: _authRepository.userID));
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Members',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Members',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: _refreshMembers,
+                  tooltip: 'Refresh members',
+                ),
+              ],
+            ),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
