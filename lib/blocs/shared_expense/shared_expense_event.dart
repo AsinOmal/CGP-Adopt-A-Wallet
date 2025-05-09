@@ -94,3 +94,18 @@ class SharedExpenseFetchGroupInvitesRequest extends SharedExpenseEvent {
   @override
   List<Object> get props => [userId];
 }
+
+class SharedExpenseRespondToGroupInviteRequest extends SharedExpenseEvent {
+  final String inviteId;
+  final bool accept;
+  final String userId;
+
+  const SharedExpenseRespondToGroupInviteRequest({
+    required this.inviteId,
+    required this.accept,
+    required this.userId,
+  });
+
+  @override
+  List<Object> get props => [inviteId, accept, userId];
+}

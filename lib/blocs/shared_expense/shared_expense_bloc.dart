@@ -112,6 +112,36 @@ class SharedExpenseBloc extends Bloc<SharedExpenseEvent, SharedExpenseState> {
               errorMessage: "Failed to fetch group invites"));
         }
       }
+      if (event is SharedExpenseRespondToGroupInviteRequest) {
+        try {
+          emit(SharedExpenseGroupInvitesLoading());
+
+          final success = await _sharedExpensesRepository.respondToGroupInvite(
+            inviteId: event.inviteId,
+            accept: event.accept,
+            userId: event.userId,
+          );
+
+          if (success) {
+            // First emit success response
+            emit(SharedExpenseGroupInviteResponseSuccess(
+                accepted: event.accept));
+
+            // Then fetch updated invites list to refresh the UI
+            final updatedInvites = await _sharedExpensesRepository
+                .fetchGroupInvites(userId: event.userId);
+
+            emit(SharedExpenseGroupInviteFetched(invites: updatedInvites));
+          } else {
+            emit(const SharedExpenseGroupInviteResponseError(
+                errorMessage: "Failed to respond to invitation"));
+          }
+        } catch (e) {
+          dev.log("Error responding to invitation: ${e.toString()}");
+          emit(SharedExpenseGroupInviteResponseError(
+              errorMessage: "Error: ${e.toString()}"));
+        }
+      }
     });
   }
 }

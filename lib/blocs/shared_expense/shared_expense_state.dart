@@ -2,7 +2,7 @@ part of 'shared_expense_bloc.dart';
 
 sealed class SharedExpenseState extends Equatable {
   const SharedExpenseState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -31,8 +31,10 @@ final class SharedExpenseGroupsFetched extends SharedExpenseState {
   @override
   List<Object> get props => [groups];
 }
+
 //create a states for group fetching loading and error
 final class SharedExpenseGroupsLoading extends SharedExpenseState {}
+
 final class SharedExpenseGroupsError extends SharedExpenseState {
   final String errorMessage;
 
@@ -53,6 +55,7 @@ final class SharedExpenseUserFetched extends SharedExpenseState {
 }
 
 final class SharedExpenseUserLoading extends SharedExpenseState {}
+
 final class SharedExpenseUserError extends SharedExpenseState {
   final String errorMessage;
 
@@ -75,6 +78,7 @@ final class SharedExpenseGroupInviteError extends SharedExpenseState {
 
 // create sharedexpenseadded states
 final class SharedExpenseAdded extends SharedExpenseState {}
+
 final class SharedExpenseAddedError extends SharedExpenseState {
   final String errorMessage;
 
@@ -83,6 +87,7 @@ final class SharedExpenseAddedError extends SharedExpenseState {
   @override
   List<Object> get props => [errorMessage];
 }
+
 final class SharedExpenseAddedLoading extends SharedExpenseState {}
 
 // creates state for fetch sharedexpenses
@@ -94,7 +99,9 @@ final class SharedExpenseFetched extends SharedExpenseState {
   @override
   List<Object> get props => [groupExpenses];
 }
-final class SharedExpenseFetchSharedExpensesLoading extends SharedExpenseState {}
+
+final class SharedExpenseFetchSharedExpensesLoading
+    extends SharedExpenseState {}
 
 final class SharedExpenseFetchSharedExpensesError extends SharedExpenseState {
   final String errorMessage;
@@ -124,6 +131,7 @@ final class SharedExpenseGroupInviteFetched extends SharedExpenseState {
   @override
   List<Object> get props => [invites];
 }
+
 final class SharedExpenseGroupInvitesError extends SharedExpenseState {
   final String errorMessage;
 
@@ -134,3 +142,21 @@ final class SharedExpenseGroupInvitesError extends SharedExpenseState {
 }
 
 final class SharedExpenseGroupInvitesLoading extends SharedExpenseState {}
+
+final class SharedExpenseGroupInviteResponseSuccess extends SharedExpenseState {
+  final bool accepted;
+
+  const SharedExpenseGroupInviteResponseSuccess({required this.accepted});
+
+  @override
+  List<Object> get props => [accepted];
+}
+
+final class SharedExpenseGroupInviteResponseError extends SharedExpenseState {
+  final String errorMessage;
+
+  const SharedExpenseGroupInviteResponseError({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
+}

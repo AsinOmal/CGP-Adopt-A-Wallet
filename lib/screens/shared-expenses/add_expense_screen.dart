@@ -36,11 +36,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   late String paidBy;
   late Map<String, bool> splitBetween = {};
 
+  late SharedExpenseBloc _sharedExpenseBloc;
+
   @override
   void initState() {
     super.initState();
     // Initialize data based on membersDetails
     members = widget.membersDetails.map((m) => m['name'] as String).toList();
+    _sharedExpenseBloc = RepositoryProvider.of<SharedExpenseBloc>(context);
 
     if (members.isNotEmpty) {
       paidBy = members[0];
@@ -82,6 +85,17 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Expense added successfully!')));
             Navigator.of(context).pop();
+            _sharedExpenseBloc.add(SharedExpensesFetchRequest(groupId: widget.groupId));
+          } else if (state is SharedExpenseAddedLoading) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
           } else if (state is SharedExpenseAddedError) {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Error: ${state.errorMessage}')));

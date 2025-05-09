@@ -233,4 +233,44 @@ class SharedExpensesRepository extends BaseSharedExpensesRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> respondToGroupInvite({
+    required String inviteId,
+    required bool accept,
+    required String userId,
+  }) async {
+    try {
+      // Get the invite document
+      final inviteDoc = await _groupInviteCollection.doc(inviteId).get();
+      if (!inviteDoc.exists) {
+        dev.log('Invite does not exist');
+        return false;
+      }
+
+      // Update the invite status
+      await _groupInviteCollection.doc(inviteId).update({
+        'isAccepted': accept,
+      });
+
+      // If the user accepted, add them to the group
+      if (accept) {
+        final inviteData = inviteDoc.data() as Map<String, dynamic>;
+        final groupId = inviteData['groupId'];
+
+        // Add user to the group
+        await _sharedExpenseGroupCollection.doc(groupId).update({
+          'memberIds': FieldValue.arrayUnion([userId]),
+        });
+
+        dev.log('User added to group successfully');
+      }
+
+      dev.log('Group invite response processed successfully');
+      return true;
+    } catch (e) {
+      dev.log("Error responding to group invite: ${e.toString()}");
+      rethrow;
+    }
+  }
 }
