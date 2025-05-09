@@ -39,14 +39,13 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     _sharedExpenseBloc = RepositoryProvider.of<SharedExpenseBloc>(context);
     _authRepository = RepositoryProvider.of<AuthRepository>(context);
-
+    _sharedExpenseBloc.add(
+        SharedExpenseFetchGroupInvitesRequest(userId: _authRepository.userID));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _sharedExpenseBloc.add(
-        SharedExpenseFetchGroupInvitesRequest(userId: _authRepository.userID));
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -56,6 +55,16 @@ class _NotificationPageState extends State<NotificationPage> {
           AppLocalizations.of(context).translate('notifications'),
           style: const TextStyle(fontSize: 22),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              _sharedExpenseBloc.add(SharedExpenseFetchGroupInvitesRequest(
+                  userId: _authRepository.userID));
+            },
+            tooltip: 'Refresh notifications',
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
