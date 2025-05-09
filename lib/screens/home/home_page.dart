@@ -5,9 +5,8 @@ import 'package:financial_app/blocs/auth/auth_bloc.dart';
 import 'package:financial_app/data/keys.dart';
 import 'package:financial_app/language/transalation.dart';
 import 'package:financial_app/navigators/navigation_keys.dart';
-import 'package:financial_app/screens/convertor/money_convertor.dart';
 import 'package:financial_app/screens/dashboard/dashboard_page.dart';
-import 'package:financial_app/screens/payment-pages/bill_payment_page.dart';
+import 'package:financial_app/screens/notification/notification_page.dart';
 // import 'package:financial_app/screens/payment-pages/bill_payment_page.dart';
 import 'package:financial_app/screens/profile-pages/account_info/account_info_page.dart';
 import 'package:financial_app/screens/profile-pages/privacy_policy/privacy_policy_page.dart';
@@ -38,10 +37,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-  final String _exchane = 'assets/icons/exchange.ico';
-  final String _exchaneOut = 'assets/icons/exchange_out.ico';
-  final String _payment = 'assets/icons/payment.ico';
-  final String _paymentOut = 'assets/icons/payment_out.ico';
+  final String _notification = 'assets/icons/notificationregular.ico';
+  final String _notificationfilled = 'assets/icons/notificationfilled.ico';
+  final String _group = 'assets/icons/groupoutlined.ico';
+  final String _groupfilled = 'assets/icons/groupfilled.ico';
+  //final String _payment = 'assets/icons/payment.ico';
+  //final String _paymentOut = 'assets/icons/payment_out.ico';
   final String _visaOut = 'assets/icons/visa.ico';
   final String _visa = 'assets/icons/visa_fill.ico';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -264,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                 CardsPage(),
                 // Wrap SharedExpensePage with HeroMode to disable Hero animations
                 HeroMode(enabled: false, child: SharedExpensePage()),
-                MoneyConveror(),
+                NotificationPage(),
               ],
             ),
             Align(
@@ -371,7 +372,8 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: ImageIcon(
                     AssetImage(
-                      _currentIndex == 2 ? _paymentOut : _payment,
+                      
+                      _currentIndex == 2 ? _groupfilled : _group,
                     ),
                     size: 24,
                   ),
@@ -392,8 +394,9 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: ImageIcon(
                     AssetImage(
-                      _currentIndex == 3 ? _exchane : _exchaneOut,
+                      _currentIndex == 3 ? _notificationfilled : _notification,
                     ),
+                    size: 24,
                   ),
                   padding: EdgeInsets.zero,
                   onPressed: () {

@@ -23,6 +23,7 @@ import 'package:financial_app/screens/auth/login_page.dart';
 import 'package:financial_app/screens/auth/signup_page.dart';
 import 'package:financial_app/screens/auth/forgot_password.dart';
 import 'package:financial_app/screens/home/home_page.dart';
+import 'package:financial_app/screens/notification/notification_page.dart';
 import 'package:financial_app/screens/onboard/onboarding_page.dart';
 import 'package:financial_app/screens/splash_screen/splash_screen.dart';
 import 'package:financial_app/services/feedback_repository.dart';
@@ -138,7 +139,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
     final themeProvider = Provider.of<ThemeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
     var app = MaterialApp(
-      //home: const SharedExpensePage(),
+      //home: const NotificationPage(),
       navigatorKey: globalNavigatorKey,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: getPageRouteSettings(),
