@@ -1,14 +1,16 @@
 class GroupInvite {
   String id;
   final String groupId;
-  final String userId;
-  final bool isAccepted;
+  final String senderId;
+  final String recipientId;
+  final bool? isAccepted;
   final DateTime createdAt;
 
   GroupInvite({
     String? id,
     required this.groupId,
-    required this.userId,
+    required this.senderId,
+    required this.recipientId,
     required this.isAccepted,
     required this.createdAt,
   }) : id = id ?? '';
@@ -16,8 +18,9 @@ class GroupInvite {
   factory GroupInvite.fromJson(Map<String, dynamic> json) {
     return GroupInvite(
       id: json['id'],
+      senderId: json['senderId'],
       groupId: json['groupId'],
-      userId: json['userId'],
+      recipientId: json['recipientId'],
       isAccepted: json['isAccepted'],
       createdAt: DateTime.parse(json['created_at']),
     );
@@ -27,7 +30,8 @@ class GroupInvite {
     return {
       'id': id,
       'groupId': groupId,
-      'userId': userId,
+      'senderId': senderId,
+      'recipientId': recipientId,
       'isAccepted': isAccepted,
       'created_at': createdAt.toIso8601String(),
     };

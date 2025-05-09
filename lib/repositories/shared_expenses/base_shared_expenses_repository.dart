@@ -14,11 +14,13 @@ abstract class BaseSharedExpensesRepository {
 
   Future<UserGroupStatus> fetchUserByEmailCheckIsInGroup({required String email, required String groupId});
 
-  Future<bool> sendGroupInviteToUser({required String email, required String groupId});
+  Future<bool> sendGroupInviteToUser({required String email, required String groupId, required String senderId});
 
   Future<void> addExpenseToGroup({required GroupExpense groupExpense, required String groupId});
 
   Future<List<GroupExpense>> fetchGroupExpenses({required String groupId});
 
   Future<void> deleteSharedExpenseGroup({required String groupId});
+
+  Future<List<GroupInvite>> fetchGroupInvites({required String userId});
 }

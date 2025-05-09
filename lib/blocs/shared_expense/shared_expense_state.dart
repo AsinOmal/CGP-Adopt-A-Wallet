@@ -115,3 +115,22 @@ final class SharedExpenseDeleteGroupError extends SharedExpenseState {
   @override
   List<Object> get props => [errorMessage];
 }
+
+final class SharedExpenseGroupInviteFetched extends SharedExpenseState {
+  final List<GroupInvite> invites;
+
+  const SharedExpenseGroupInviteFetched({required this.invites});
+
+  @override
+  List<Object> get props => [invites];
+}
+final class SharedExpenseGroupInvitesError extends SharedExpenseState {
+  final String errorMessage;
+
+  const SharedExpenseGroupInvitesError({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
+final class SharedExpenseGroupInvitesLoading extends SharedExpenseState {}

@@ -100,7 +100,7 @@ class SharedExpensesRepository extends BaseSharedExpensesRepository {
 
       // Check if user has been invited to the group
       final inviteQuery = await _groupInviteCollection
-          .where('userId', isEqualTo: userId)
+          .where('recipientId', isEqualTo: userId)
           .where('groupId', isEqualTo: groupId)
           .limit(1)
           .get();
@@ -121,7 +121,9 @@ class SharedExpensesRepository extends BaseSharedExpensesRepository {
 
   @override
   Future<bool> sendGroupInviteToUser(
-      {required String email, required String groupId}) async {
+      {required String email,
+      required String groupId,
+      required String senderId}) async {
     try {
       // Fetch user by email
       final userQuery = await FirebaseFirestore.instance
@@ -135,9 +137,10 @@ class SharedExpensesRepository extends BaseSharedExpensesRepository {
       // Create a new group invite
       final groupInvite = GroupInvite(
         id: '',
-        userId: userId,
+        recipientId: userId,
+        senderId: senderId,
         groupId: groupId,
-        isAccepted: false,
+        isAccepted: null,
         createdAt: DateTime.now(),
       );
 
@@ -210,6 +213,23 @@ class SharedExpensesRepository extends BaseSharedExpensesRepository {
       }
     } catch (e) {
       dev.log("Error deleting shared expense group: ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<GroupInvite>> fetchGroupInvites({required String userId}) {
+    try {
+      return _groupInviteCollection
+          .where('recipientId', isEqualTo: userId)
+          .get()
+          .then((snapshot) {
+        return snapshot.docs.map((doc) {
+          return GroupInvite.fromJson(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {
+      dev.log("Error fetching group invites: ${e.toString()}");
       rethrow;
     }
   }

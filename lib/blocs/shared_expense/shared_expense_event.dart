@@ -42,13 +42,15 @@ class SharedExpenseFetchUserByEmailRequest extends SharedExpenseEvent {
 class SharedExpenseSendInviteRequest extends SharedExpenseEvent {
   final String email;
   final String groupId;
+  final String senderId;
   const SharedExpenseSendInviteRequest({
     required this.email,
     required this.groupId,
+    required this.senderId,
   });
 
   @override
-  List<Object> get props => [email, groupId];
+  List<Object> get props => [email, groupId, senderId];
 }
 
 class SharedExpenseAddExpenseRequest extends SharedExpenseEvent {
@@ -81,4 +83,14 @@ class SharedExpenseDeleteGroupRequest extends SharedExpenseEvent {
 
   @override
   List<Object> get props => [groupId];
+}
+
+class SharedExpenseFetchGroupInvitesRequest extends SharedExpenseEvent {
+  final String userId;
+  const SharedExpenseFetchGroupInvitesRequest({
+    required this.userId,
+  });
+
+  @override
+  List<Object> get props => [userId];
 }

@@ -1,5 +1,6 @@
 import 'package:financial_app/blocs/shared_expense/shared_expense_bloc.dart';
 import 'package:financial_app/enums/user_group_status.dart';
+import 'package:financial_app/repositories/auth/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,10 +19,12 @@ class _InviteMemberScreenState extends State<InviteMemberScreen> {
   bool isInvited = false;
 
   late SharedExpenseBloc _sharedExpenseBloc;
+  late AuthRepository _authRepository;
 
   @override
   void initState() {
     _sharedExpenseBloc = context.read<SharedExpenseBloc>();
+    _authRepository = context.read<AuthRepository>();
     super.initState();
   }
 
@@ -46,6 +49,7 @@ class _InviteMemberScreenState extends State<InviteMemberScreen> {
     _sharedExpenseBloc.add(SharedExpenseSendInviteRequest(
       email: email,
       groupId: widget.groupId,
+      senderId: _authRepository.userID,
     ));
     _sharedExpenseBloc.stream.listen((state) {
       if (state is SharedExpenseGroupInviteSent) {
