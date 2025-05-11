@@ -252,7 +252,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return const SettleScreen();
+            return SettleScreen();
           },
         ));
       },
