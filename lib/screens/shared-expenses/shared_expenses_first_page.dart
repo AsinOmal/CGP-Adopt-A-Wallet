@@ -142,6 +142,9 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
                 if (state is SharedExpenseGroupDeleted) {
                   CustomSnackBar.showSuccessSnackBar(
                       "Group deleted successfully", context);
+                  setState(() {
+                    groups.removeAt(index);
+                  });
                   
                 } else if (state is SharedExpenseError) {
                   CustomSnackBar.showErrorSnackBar(

@@ -33,8 +33,13 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   late Map<String, bool> splitEqually = {};
   late Map<String, TextEditingController> customAmountControllers = {};
   late List<String> members = [];
-  late String paidBy;
+
+  // Track both name and ID of payer
+  late String payerName;
+  late String payerId;
+
   late Map<String, bool> splitBetween = {};
+  late Map<String, String> memberIdMap = {}; // Map from name to ID
 
   late SharedExpenseBloc _sharedExpenseBloc;
 
@@ -44,10 +49,19 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     // Initialize data based on membersDetails
     members = widget.membersDetails.map((m) => m['name'] as String).toList();
     _sharedExpenseBloc = RepositoryProvider.of<SharedExpenseBloc>(context);
+    // Create a map from name to ID
+    for (var member in widget.membersDetails) {
+      memberIdMap[member['name']] = member['id'];
+    }
+
+    // Debug the entire member mapping
+    print('Member ID Map: $memberIdMap');
 
     if (members.isNotEmpty) {
-      paidBy = members[0];
-      selectedPayer = paidBy;
+      payerName = members[0];
+      payerId = memberIdMap[payerName] ?? '';
+      selectedPayer = payerName;
+      print('Initial payer set to: $payerName (ID: $payerId)');
     }
 
     // Initialize maps based on actual members
@@ -85,7 +99,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Expense added successfully!')));
             Navigator.of(context).pop();
-            _sharedExpenseBloc.add(SharedExpensesFetchRequest(groupId: widget.groupId));
+            _sharedExpenseBloc
+                .add(SharedExpensesFetchRequest(groupId: widget.groupId));
           } else if (state is SharedExpenseAddedLoading) {
             showDialog(
               context: context,
@@ -129,7 +144,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  value: paidBy,
+                  value: payerName,
                   decoration: const InputDecoration(
                     labelText: 'Paid By',
                     border: OutlineInputBorder(
@@ -140,9 +155,16 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                     return DropdownMenuItem(value: m, child: Text(m));
                   }).toList(),
                   onChanged: (val) {
-                    setState(() {
-                      paidBy = val!;
-                    });
+                    if (val != null) {
+                      setState(() {
+                        payerName = val;
+                        payerId = memberIdMap[payerName] ?? '';
+                        print(
+                            'Selected payer changed to: $payerName (ID: $payerId)');
+                        // Dump the entire map for debugging
+                        print('Available member IDs: $memberIdMap');
+                      });
+                    }
                   },
                 ),
                 const SizedBox(height: 16),
@@ -244,14 +266,11 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       final double totalAmount = double.parse(amountController.text);
       final Map<String, double> splitMap = {};
       final Map<String, bool> repayments = {};
-
-      // Get payer's ID from membersDetails
-      String payerId = '';
-      for (var member in widget.membersDetails) {
-        if (member['name'] == paidBy) {
-          payerId = member['id'];
-          break;
-        }
+      // Use the already stored payerId instead of looking it up again
+      if (payerId.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Error: Could not identify the payer')));
+        return;
       }
 
       if (splitMode == SplitMode.equally) {
@@ -301,8 +320,20 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           return;
         }
       }
+      // Extra verification before creating expense
+      print('Creating expense with:');
+      print('- Description: ${descriptionController.text}');
+      print('- Amount: $totalAmount');
+      print('- Payer Name: $payerName');
+      print('- Payer ID: $payerId');
+      print('- Split Mode: $splitMode');
 
-      // Create GroupExpense object
+      if (payerId != memberIdMap[payerName]) {
+        print(
+            'ERROR: Payer ID mismatch! Expected ${memberIdMap[payerName]}, got $payerId');
+      }
+
+      // Create GroupExpense object with the correct payer I
       final GroupExpense groupExpense = GroupExpense(
         description: descriptionController.text,
         amount: totalAmount,

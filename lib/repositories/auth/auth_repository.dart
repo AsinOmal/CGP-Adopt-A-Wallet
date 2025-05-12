@@ -48,8 +48,7 @@ class AuthRepository extends BaseAuthRepository {
           userID: user.uid,
           name: name,
           email: email,
-          profileImageURL:
-              dotenv.env['DEFAULT_IMAGE_URL']!,
+          profileImageURL: dotenv.env['DEFAULT_IMAGE_URL']!,
           createdAt: Timestamp.now(),
         );
         await addUserIfNotExists(newUser);
@@ -218,8 +217,7 @@ class AuthRepository extends BaseAuthRepository {
           userID: user.uid,
           name: user.displayName!,
           email: user.email!,
-          profileImageURL:
-              dotenv.env['DEFAULT_IMAGE_URL']!,
+          profileImageURL: dotenv.env['DEFAULT_IMAGE_URL']!,
           createdAt: Timestamp.now(),
         );
         addUserIfNotExists(newUser);
@@ -234,8 +232,7 @@ class AuthRepository extends BaseAuthRepository {
 
   Future<String> uploadImage({required User user, required File image}) async {
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    final defaultImageUrl =
-        dotenv.env['DEFAULT_IMAGE_URL']!;
+    final defaultImageUrl = dotenv.env['DEFAULT_IMAGE_URL']!;
 
     if (user.profileImageURL != defaultImageUrl) {
       // Remove the existing image if it's not the default image
@@ -263,20 +260,18 @@ class AuthRepository extends BaseAuthRepository {
     await ProfileImageService().saveImageUrl(url);
     return url;
   }
-  
   @override
-  Future<List<String>> fetchUserNames(List<String> userIDs) {
+  Future<Map<String, String>> fetchUserNames(List<String> userIDs) {
     return _usersCollection
         .where(FieldPath.documentId, whereIn: userIDs)
         .get()
         .then((QuerySnapshot snapshot) {
-      return snapshot.docs.map((doc) {
+      Map<String, String> userMap = {};
+      for (var doc in snapshot.docs) {
         final data = doc.data() as Map<String, dynamic>;
-        return data['name'] as String;
-      }).toList();
+        userMap[doc.id] = data['name'] as String;
+      }
+      return userMap;
     });
-    
   }
-
-
 }

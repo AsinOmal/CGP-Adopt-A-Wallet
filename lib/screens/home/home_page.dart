@@ -152,6 +152,25 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 20),
                       ListTile(
+                        leading: const Icon(Icons.info),
+                        title: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            AppLocalizations.of(context).translate('money_convertor'),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoneyConveror(),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ListTile(
                         leading: const Icon(Icons.settings),
                         title: Padding(
                           padding: const EdgeInsets.only(left: 15),
@@ -302,7 +321,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddGroupScreen(),
+                      builder: (context) => const AddGroupScreen(),
                     ),
                   );
                 },
@@ -372,7 +391,6 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: ImageIcon(
                     AssetImage(
-                      
                       _currentIndex == 2 ? _groupfilled : _group,
                     ),
                     size: 24,
