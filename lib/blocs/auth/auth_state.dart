@@ -108,3 +108,4 @@ final class AuthUserNamesError extends AuthState {
 }
 
 final class AuthUserNamesLoading extends AuthState {}
+

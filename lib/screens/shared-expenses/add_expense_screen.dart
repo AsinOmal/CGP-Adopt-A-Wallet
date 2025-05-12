@@ -49,7 +49,6 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     // Initialize data based on membersDetails
     members = widget.membersDetails.map((m) => m['name'] as String).toList();
     _sharedExpenseBloc = RepositoryProvider.of<SharedExpenseBloc>(context);
-
     // Create a map from name to ID
     for (var member in widget.membersDetails) {
       memberIdMap[member['name']] = member['id'];
@@ -267,7 +266,6 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       final double totalAmount = double.parse(amountController.text);
       final Map<String, double> splitMap = {};
       final Map<String, bool> repayments = {};
-
       // Use the already stored payerId instead of looking it up again
       if (payerId.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -322,7 +320,6 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           return;
         }
       }
-
       // Extra verification before creating expense
       print('Creating expense with:');
       print('- Description: ${descriptionController.text}');
@@ -336,7 +333,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             'ERROR: Payer ID mismatch! Expected ${memberIdMap[payerName]}, got $payerId');
       }
 
-      // Create GroupExpense object with the correct payer ID
+      // Create GroupExpense object with the correct payer I
       final GroupExpense groupExpense = GroupExpense(
         description: descriptionController.text,
         amount: totalAmount,
@@ -345,8 +342,6 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         repayments: repayments,
         createdAt: Timestamp.now(),
       );
-
-      print('Adding expense with payer ID: $payerId'); // Debug info
 
       // Dispatch event to SharedExpenseBloc
       context.read<SharedExpenseBloc>().add(
