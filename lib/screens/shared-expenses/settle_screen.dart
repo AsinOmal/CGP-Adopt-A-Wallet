@@ -196,7 +196,7 @@ class _SettleScreenState extends State<SettleScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${settle['toName']} owes ${settle['fromName']}',
+                                  '${settle['fromName']} owes ${settle['toName']}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.black54,
