@@ -7,17 +7,21 @@ import 'package:financial_app/language/transalation.dart';
 import 'package:financial_app/navigators/navigation_keys.dart';
 import 'package:financial_app/screens/convertor/money_convertor.dart';
 import 'package:financial_app/screens/dashboard/dashboard_page.dart';
-import 'package:financial_app/screens/payment-pages/bill_payment_page.dart';
+import 'package:financial_app/screens/notification/notification_page.dart';
+// import 'package:financial_app/screens/payment-pages/bill_payment_page.dart';
 import 'package:financial_app/screens/profile-pages/account_info/account_info_page.dart';
 import 'package:financial_app/screens/profile-pages/privacy_policy/privacy_policy_page.dart';
 import 'package:financial_app/screens/cards/cards_page.dart';
 import 'package:financial_app/screens/profile-pages/rating/rating_dialog.dart';
 import 'package:financial_app/screens/profile-pages/settings/settings_page.dart';
+import 'package:financial_app/screens/shared-expenses/create_a_group.dart';
+import 'package:financial_app/screens/shared-expenses/shared_expenses_first_page.dart';
 import 'package:financial_app/screens/transactions/transaction_type_page.dart';
 import 'package:financial_app/services/feedback_repository.dart';
 import 'package:financial_app/services/profile_image_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
@@ -34,10 +38,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-  final String _exchane = 'assets/icons/exchange.ico';
-  final String _exchaneOut = 'assets/icons/exchange_out.ico';
-  final String _payment = 'assets/icons/payment.ico';
-  final String _paymentOut = 'assets/icons/payment_out.ico';
+  final String _notification = 'assets/icons/notificationregular.ico';
+  final String _notificationfilled = 'assets/icons/notificationfilled.ico';
+  final String _group = 'assets/icons/groupoutlined.ico';
+  final String _groupfilled = 'assets/icons/groupfilled.ico';
+  //final String _payment = 'assets/icons/payment.ico';
+  //final String _paymentOut = 'assets/icons/payment_out.ico';
   final String _visaOut = 'assets/icons/visa.ico';
   final String _visa = 'assets/icons/visa_fill.ico';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -141,6 +147,25 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => const PrivacyPolicyScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ListTile(
+                        leading: const Icon(Icons.monetization_on_outlined),
+                        title: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            AppLocalizations.of(context).translate('money_convertor'),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoneyConveror(),
                             ),
                           );
                         },
@@ -258,8 +283,9 @@ class _HomePageState extends State<HomePage> {
               children: const [
                 Dashboard(),
                 CardsPage(),
-                BillPayScreen(),
-                MoneyConveror(),
+                // Wrap SharedExpensePage with HeroMode to disable Hero animations
+                HeroMode(enabled: false, child: SharedExpensePage()),
+                NotificationPage(),
               ],
             ),
             Align(
@@ -279,22 +305,26 @@ class _HomePageState extends State<HomePage> {
                   child: CircleAvatar(
                     radius: 20.0,
                     backgroundColor: const Color.fromARGB(255, 226, 226, 226),
-                    backgroundImage: NetworkImage(_url ??
-                        'https://wlujgctqyxyyegjttlce.supabase.co/storage/v1/object/public/users_propics/users_propics/default_img.png'),
+                    backgroundImage: NetworkImage(
+                      _url ??
+                          dotenv.env['DEFAULT_IMAGE_URL'] ??
+                          'https://nlekhbkoqtatppkfocoo.supabase.co/storage/v1/object/public/users-propics//default_img.png',
+                    ),
                   ),
                 ),
               ),
             )
           ],
         ),
-        floatingActionButton: _currentIndex == 0
+        floatingActionButton: _currentIndex == 0 || _currentIndex == 2
             ? FloatingActionButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TransactionTypePage(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddGroupScreen(),
+                    ),
+                  );
                 },
                 backgroundColor: const Color(0xFF456EFE),
                 shape: const CircleBorder(),
@@ -362,7 +392,7 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: ImageIcon(
                     AssetImage(
-                      _currentIndex == 2 ? _paymentOut : _payment,
+                      _currentIndex == 2 ? _groupfilled : _group,
                     ),
                     size: 24,
                   ),
@@ -383,8 +413,9 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: ImageIcon(
                     AssetImage(
-                      _currentIndex == 3 ? _exchane : _exchaneOut,
+                      _currentIndex == 3 ? _notificationfilled : _notification,
                     ),
+                    size: 24,
                   ),
                   padding: EdgeInsets.zero,
                   onPressed: () {
@@ -399,5 +430,16 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+}
+
+Widget getPageByIndex(int index) {
+  switch (index) {
+    case 0:
+      return const TransactionTypePage();
+    case 2:
+      return const AddGroupScreen();
+    default:
+      return const Placeholder();
   }
 }

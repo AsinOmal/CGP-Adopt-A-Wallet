@@ -6,6 +6,7 @@ import 'package:financial_app/blocs/budget/budget_bloc.dart';
 import 'package:financial_app/blocs/card/card_bloc.dart';
 import 'package:financial_app/blocs/goal/goal_bloc.dart';
 import 'package:financial_app/blocs/reminder/reminder_bloc.dart';
+import 'package:financial_app/blocs/shared_expense/shared_expense_bloc.dart';
 import 'package:financial_app/blocs/transaction/transaction_bloc.dart';
 import 'package:financial_app/data/keys.dart';
 import 'package:financial_app/language/language_provider.dart';
@@ -16,11 +17,13 @@ import 'package:financial_app/repositories/budget/budget_repository.dart';
 import 'package:financial_app/repositories/card/card_repository.dart';
 import 'package:financial_app/repositories/goal/goal_repository.dart';
 import 'package:financial_app/repositories/reminder/reminder_repository.dart';
+import 'package:financial_app/repositories/shared_expenses/shared_expenses_repository.dart';
 import 'package:financial_app/repositories/transaction/transaction_repository.dart';
 import 'package:financial_app/screens/auth/login_page.dart';
 import 'package:financial_app/screens/auth/signup_page.dart';
 import 'package:financial_app/screens/auth/forgot_password.dart';
 import 'package:financial_app/screens/home/home_page.dart';
+import 'package:financial_app/screens/notification/notification_page.dart';
 import 'package:financial_app/screens/onboard/onboarding_page.dart';
 import 'package:financial_app/screens/splash_screen/splash_screen.dart';
 import 'package:financial_app/services/feedback_repository.dart';
@@ -94,6 +97,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
     var reminderRepository = ReminderRepository();
     var budgetRepository = BudgetRepository();
     var cardRepository = CardRepository();
+    var sharedExpenseRepository = SharedExpensesRepository();
     var transactionBloc = TransactionBloc(transactionRepository);
 
     var smsService = SmsService(
@@ -101,7 +105,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
       authRepository: authRepository,
     );
     shakeDetector = ShakeDetector.autoStart(
-      onPhoneShake: () {
+      onPhoneShake: (ShakeEvent event) {
         BetterFeedback.of(context).show((UserFeedback feedback) async {
           BetterFeedback.of(context).hide();
           try {
@@ -135,6 +139,7 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
     final themeProvider = Provider.of<ThemeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
     var app = MaterialApp(
+      //home: const NotificationPage(),
       navigatorKey: globalNavigatorKey,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: getPageRouteSettings(),
@@ -203,6 +208,9 @@ class _AdoptAWalletAppState extends State<AdoptAWalletApp>
         ),
         RepositoryProvider(
           create: (context) => CardBloc(cardRepository),
+        ),
+        RepositoryProvider(
+          create: (context) => SharedExpenseBloc(sharedExpenseRepository),
         ),
         Provider(create: (context) => smsService),
       ],

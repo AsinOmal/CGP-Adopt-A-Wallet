@@ -87,3 +87,25 @@ final class AuthProfileImageUpdateError extends AuthState {
   @override
   List<Object> get props => [message];
 }
+
+// creates states for fetching user names
+final class AuthUserNamesFetched extends AuthState {
+  final Map<String, String> userNames;
+
+  const AuthUserNamesFetched({required this.userNames});
+
+  @override
+  List<Object> get props => [userNames];
+}
+
+final class AuthUserNamesError extends AuthState {
+  final String errorMessage;
+
+  const AuthUserNamesError({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
+final class AuthUserNamesLoading extends AuthState {}
+

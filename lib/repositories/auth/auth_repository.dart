@@ -6,6 +6,7 @@ import 'package:financial_app/repositories/auth/auth_result.dart';
 import 'package:financial_app/repositories/auth/base_auth_repository.dart';
 import 'package:financial_app/services/profile_image_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:developer' as dev;
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
@@ -47,8 +48,7 @@ class AuthRepository extends BaseAuthRepository {
           userID: user.uid,
           name: name,
           email: email,
-          profileImageURL:
-              'https://wlujgctqyxyyegjttlce.supabase.co/storage/v1/object/public/users_propics/users_propics/default_img.png',
+          profileImageURL: dotenv.env['DEFAULT_IMAGE_URL']!,
           createdAt: Timestamp.now(),
         );
         await addUserIfNotExists(newUser);
@@ -217,8 +217,7 @@ class AuthRepository extends BaseAuthRepository {
           userID: user.uid,
           name: user.displayName!,
           email: user.email!,
-          profileImageURL:
-              'https://wlujgctqyxyyegjttlce.supabase.co/storage/v1/object/public/users_propics/users_propics/default_img.png',
+          profileImageURL: dotenv.env['DEFAULT_IMAGE_URL']!,
           createdAt: Timestamp.now(),
         );
         addUserIfNotExists(newUser);
@@ -233,15 +232,13 @@ class AuthRepository extends BaseAuthRepository {
 
   Future<String> uploadImage({required User user, required File image}) async {
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    final pathName = 'users_propics/$fileName';
-    const defaultImageUrl =
-        'https://wlujgctqyxyyegjttlce.supabase.co/storage/v1/object/public/users_propics/users_propics/default_img.png';
+    final defaultImageUrl = dotenv.env['DEFAULT_IMAGE_URL']!;
 
     if (user.profileImageURL != defaultImageUrl) {
       // Remove the existing image if it's not the default image
       try {
         await supa.Supabase.instance.client.storage
-            .from('users_propics')
+            .from('users-propics')
             .remove([user.profileImageURL]);
       } catch (e) {
         rethrow;
@@ -251,16 +248,30 @@ class AuthRepository extends BaseAuthRepository {
     // Upload the new image
     try {
       await supa.Supabase.instance.client.storage
-          .from('users_propics')
-          .upload(pathName, image);
+          .from('users-propics')
+          .upload(fileName, image);
     } catch (e) {
       rethrow;
     }
     // Get the public URL of the uploaded image
     final url = supa.Supabase.instance.client.storage
-        .from('users_propics')
-        .getPublicUrl(pathName);
+        .from('users-propics')
+        .getPublicUrl(fileName);
     await ProfileImageService().saveImageUrl(url);
     return url;
+  }
+  @override
+  Future<Map<String, String>> fetchUserNames(List<String> userIDs) {
+    return _usersCollection
+        .where(FieldPath.documentId, whereIn: userIDs)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      Map<String, String> userMap = {};
+      for (var doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        userMap[doc.id] = data['name'] as String;
+      }
+      return userMap;
+    });
   }
 }

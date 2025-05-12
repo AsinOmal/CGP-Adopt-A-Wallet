@@ -119,6 +119,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(const AuthError('Sign In Failed'));
         }
       }
+      if(event is AuthFetchUserNames) {
+        try {
+          emit(AuthUserNamesLoading());
+          final names = await _authRepository.fetchUserNames(event.userIDs);
+          emit(AuthUserNamesFetched(userNames: names));
+        } catch (e) {
+          emit(const AuthUserNamesError( errorMessage: 'Error while fetching user names'));
+        }
+      }
     });
   }
 }

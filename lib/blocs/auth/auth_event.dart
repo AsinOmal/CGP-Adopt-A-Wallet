@@ -82,3 +82,11 @@ class AuthProfileImageUpdate extends AuthEvent {
   @override
   List<Object> get props => [image, user];
 }
+
+class AuthFetchUserNames extends AuthEvent {
+  final List<String> userIDs;
+  const AuthFetchUserNames({required this.userIDs});
+
+  @override
+  List<Object> get props => [userIDs];
+}
