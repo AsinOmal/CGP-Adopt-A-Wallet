@@ -34,5 +34,4 @@ abstract class BaseSharedExpensesRepository {
     required bool accept,
     required String userId,
   });
-
 }

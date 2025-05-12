@@ -260,7 +260,6 @@ class AuthRepository extends BaseAuthRepository {
     await ProfileImageService().saveImageUrl(url);
     return url;
   }
-
   @override
   Future<Map<String, String>> fetchUserNames(List<String> userIDs) {
     return _usersCollection
