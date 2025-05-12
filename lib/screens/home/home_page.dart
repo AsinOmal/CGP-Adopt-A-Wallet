@@ -5,6 +5,7 @@ import 'package:financial_app/blocs/auth/auth_bloc.dart';
 import 'package:financial_app/data/keys.dart';
 import 'package:financial_app/language/transalation.dart';
 import 'package:financial_app/navigators/navigation_keys.dart';
+import 'package:financial_app/screens/convertor/money_convertor.dart';
 import 'package:financial_app/screens/dashboard/dashboard_page.dart';
 import 'package:financial_app/screens/notification/notification_page.dart';
 // import 'package:financial_app/screens/payment-pages/bill_payment_page.dart';
@@ -146,6 +147,25 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => const PrivacyPolicyScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ListTile(
+                        leading: const Icon(Icons.info),
+                        title: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            AppLocalizations.of(context).translate('money_convertor'),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoneyConveror(),
                             ),
                           );
                         },
@@ -302,7 +322,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddGroupScreen(),
+                      builder: (context) => const AddGroupScreen(),
                     ),
                   );
                 },
@@ -372,7 +392,6 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: ImageIcon(
                     AssetImage(
-                      
                       _currentIndex == 2 ? _groupfilled : _group,
                     ),
                     size: 24,
