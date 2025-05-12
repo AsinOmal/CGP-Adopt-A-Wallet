@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 20),
                       ListTile(
-                        leading: const Icon(Icons.info),
+                        leading: const Icon(Icons.monetization_on_outlined),
                         title: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Text(
