@@ -54,15 +54,22 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       if (state is AuthUserNamesFetched) {
         setState(() {
           members.clear();
-          members.addAll(state.userNames);
+          // Add names from the map using group member IDs
+          for (var memberId in widget.group.memberIds) {
+            if (state.userNames.containsKey(memberId)) {
+              members.add(state.userNames[memberId]!);
+            }
+          }
         });
         // Create a list of members with their names and ids
         membersDetails.clear();
-        for (int i = 0; i < widget.group.memberIds.length; i++) {
-          membersDetails.add({
-            'name': state.userNames[i],
-            'id': widget.group.memberIds[i],
-          });
+        for (var memberId in widget.group.memberIds) {
+          if (state.userNames.containsKey(memberId)) {
+            membersDetails.add({
+              'name': state.userNames[memberId]!,
+              'id': memberId,
+            });
+          }
         }
       }
     });
@@ -164,7 +171,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   const SizedBox(width: 8),
                   _buttonAddExpense(context, 'Add Expense'),
                   const SizedBox(width: 8),
-                  _buttonSettleScreen(context, 'Settle',
+                  _buttonSettleScreen(context, 'Settle', group.id,
                       icon: Icons.construction), // Replace icon if needed
                 ],
               ),
@@ -246,13 +253,15 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     );
   }
 
-  Widget _buttonSettleScreen(BuildContext context, String label,
+  Widget _buttonSettleScreen(BuildContext context, String label, String groupId,
       {IconData? icon}) {
     return ElevatedButton.icon(
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return SettleScreen();
+            return SettleScreen(
+              groupId: groupId,
+            );
           },
         ));
       },

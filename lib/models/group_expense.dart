@@ -28,12 +28,6 @@ class GroupExpense {
 
   factory GroupExpense.fromJson(Map<String, dynamic> json) {
     try {
-      // Debug logs
-      print("Parsing expense: ${json['description']}");
-      print("splitMap raw: ${json['splitMap']}");
-      print("repayments raw: ${json['repayments']}");
-
-      // Handle createdAt timestamp
       Timestamp timestampValue;
       if (json['createdAt'] is Timestamp) {
         timestampValue = json['createdAt'];
@@ -57,7 +51,6 @@ class GroupExpense {
           } else if (value is String && double.tryParse(value) != null) {
             splitMapConverted[key.toString()] = double.parse(value);
           } else {
-            print("Invalid splitMap value: $key -> $value");
             splitMapConverted[key.toString()] = 0.0;
           }
         });
@@ -74,7 +67,6 @@ class GroupExpense {
           } else if (value is String) {
             repaymentsConverted[key.toString()] = value.toLowerCase() == 'true';
           } else {
-            print("Invalid repayments value: $key -> $value");
             repaymentsConverted[key.toString()] = false;
           }
         });
@@ -89,12 +81,7 @@ class GroupExpense {
         repayments: repaymentsConverted,
         createdAt: timestampValue,
       );
-    } catch (e, stackTrace) {
-      print("Error parsing GroupExpense: $e");
-      print("Stack trace: $stackTrace");
-      print("JSON: $json");
-
-      // Return a valid but empty GroupExpense rather than crashing
+    } catch (e) {
       return GroupExpense(
         description: json['description']?.toString() ?? 'Error',
         amount: 0.0,

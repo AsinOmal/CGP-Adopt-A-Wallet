@@ -34,5 +34,5 @@ abstract class BaseAuthRepository {
 
   Future<void> addUserIfNotExists(User newUser);
 
-  Future<List<String>> fetchUserNames(List<String> userIDs);
+  Future<Map<String, String>> fetchUserNames(List<String> userIDs);
 }

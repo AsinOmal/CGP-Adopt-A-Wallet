@@ -193,7 +193,6 @@ class SharedExpensesRepository extends BaseSharedExpensesRepository {
 
       // Sort by createdAt (newest first)
       groupExpenses.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-
       return groupExpenses;
     } catch (e) {
       dev.log("Error fetching group expenses: ${e.toString()}");
