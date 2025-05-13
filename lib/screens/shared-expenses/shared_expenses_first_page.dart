@@ -36,6 +36,8 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -43,8 +45,9 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
           "Shared Expenses",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
         ),
+        backgroundColor: isDarkMode ? Colors.grey[900] : Theme.of(context).primaryColor,
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 255, 255, 255),
       body: BlocListener<SharedExpenseBloc, SharedExpenseState>(
         listener: (context, state) {
           if (state is SharedExpenseGroupsLoading) {
@@ -79,12 +82,12 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
                 Text(
                   "Manage your shared expenses with friends and family",
                   style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey.shade600,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 20,
+                    color: isDarkMode ? Colors.grey.shade300 : Colors.grey.shade600,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
                 const SizedBox(height: 20),
                 Expanded(
                   child: LiquidPullToRefresh(
@@ -102,15 +105,15 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
                             separatorBuilder: (_, __) =>
                                 const SizedBox(height: 12),
                             itemBuilder: (context, index) {
-                              return _buildGroupCard(groups[index], index);
+                              return _buildGroupCard(groups[index], index, isDarkMode);
                             },
                           )
-                        : const Center(
+                        : Center(
                             child: Text(
                               "No groups found",
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.grey,
+                                color: isDarkMode ? Colors.grey.shade400 : Colors.grey,
                               ),
                             ),
                           ),
@@ -124,7 +127,7 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
     );
   }
 
-  Widget _buildGroupCard(Group group, int index) {
+  Widget _buildGroupCard(Group group, int index, bool isDarkMode) {
     return Slidable(
       key: ValueKey(group.id),
       endActionPane: ActionPane(
@@ -145,7 +148,6 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
                   setState(() {
                     groups.removeAt(index);
                   });
-                  
                 } else if (state is SharedExpenseError) {
                   CustomSnackBar.showErrorSnackBar(
                       "Failed to delete group: ${state.errorMessage}", context);
@@ -160,11 +162,15 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 185, 184, 184).withOpacity(0.4),
+          color: isDarkMode
+              ? Colors.grey[800]
+              : const Color.fromARGB(255, 185, 184, 184).withOpacity(0.4),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.10),
+              color: isDarkMode
+                  ? Colors.black.withOpacity(0.5)
+                  : Colors.black.withOpacity(0.10),
               blurRadius: 6,
               offset: const Offset(0, 2),
             )
@@ -173,12 +179,17 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
         child: ListTile(
           title: Text(
             group.name,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
+              color: isDarkMode ? Colors.white : Colors.black,
             ),
           ),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+          trailing: Icon(
+            Icons.arrow_forward_ios,
+            size: 18,
+            color: isDarkMode ? Colors.white70 : Colors.black54,
+          ),
           onTap: () {
             Navigator.push(
               context,
@@ -186,7 +197,7 @@ class _SharedExpensePageState extends State<SharedExpensePage> {
                 builder: (context) => GroupDetailsScreen(group: group),
               ),
             );
-          }, // Add navigation or functionality here
+          },
         ),
       ),
     );

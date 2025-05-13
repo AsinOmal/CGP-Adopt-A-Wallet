@@ -49,7 +49,7 @@ class _AddIncomePageState extends State<AddIncomePage> {
   late AuthRepository _authRepository;
 
   final List<Map<String, String>> incomeCategories = [
-    {'name': 'Salary', 'icon': '💼'},
+    {'name': 'Pocket Money', 'icon': '💰'},
     {'name': 'Business', 'icon': '🏢'},
     {'name': 'Investment', 'icon': '📈'},
     {'name': 'Freelance', 'icon': '💻'},
@@ -59,7 +59,7 @@ class _AddIncomePageState extends State<AddIncomePage> {
 
   void selectIcon(String? type) {
     switch (type) {
-      case 'Salary':
+      case 'Pocket Money':
         selectedIcon = Icons.monetization_on;
         break;
       case 'Business':

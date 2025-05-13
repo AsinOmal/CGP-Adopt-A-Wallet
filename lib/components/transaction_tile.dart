@@ -53,16 +53,16 @@ class _TransactionTileState extends State<TransactionTile> {
         containerColor = Colors.green[100]!;
         icon = Icons.monetization_on;
         break;
-      case 'Business':
+      case 'Pocket Money':
         iconColor = Colors.blue[800]!;
         containerColor = Colors.blue[100]!;
         icon = Icons.business_center;
         break;
-      case 'Investment':
-        iconColor = Colors.orange[800]!;
-        containerColor = Colors.orange[100]!;
-        icon = Icons.trending_up;
-        break;
+      // case 'Investment':
+      //   iconColor = Colors.orange[800]!;
+      //   containerColor = Colors.orange[100]!;
+      //   icon = Icons.trending_up;
+      //   break;
       case 'Freelance':
         iconColor = Colors.purple[800]!;
         containerColor = Colors.purple[100]!;
@@ -98,11 +98,11 @@ class _TransactionTileState extends State<TransactionTile> {
         containerColor = Colors.cyan[100]!;
         icon = Icons.shopping_cart;
         break;
-      case 'Kids':
-        iconColor = Colors.grey[800]!;
-        containerColor = Colors.grey[100]!;
-        icon = Icons.child_care;
-        break;
+      // case 'Kids':
+      //   iconColor = Colors.grey[800]!;
+      //   containerColor = Colors.grey[100]!;
+      //   icon = Icons.child_care;
+      //   break;
       case 'Entertainment':
         iconColor = Colors.green[800]!;
         containerColor = Colors.green[100]!;

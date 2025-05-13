@@ -67,9 +67,9 @@ class _BudgetAddState extends State<BudgetAdd> {
       case 'Shopping':
         selectedIcon = Icons.shopping_cart;
         break;
-      case 'Kids':
-        selectedIcon = Icons.child_care;
-        break;
+      // case 'Kids':
+      //   selectedIcon = Icons.child_care;
+      //   break;
       case 'Entertainment':
         selectedIcon = Icons.theaters;
         break;

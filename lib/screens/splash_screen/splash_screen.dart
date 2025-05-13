@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 350,
               ),
               const Text(
-                'DevNet© 2024',
+                'Group 86',
                 style: TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,

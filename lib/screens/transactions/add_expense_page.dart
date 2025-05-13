@@ -56,10 +56,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
     {'name': 'Health', 'icon': '💊'},
     {'name': 'Transport', 'icon': '🚌'},
     {'name': 'Shopping', 'icon': '🛍️'},
-    {'name': 'Kids', 'icon': '🧸'},
+    // {'name': 'Kids', 'icon': '🧸'},
     {'name': 'Entertainment', 'icon': '🎮'},
     {'name': 'Education', 'icon': '🎓'},
-    {'name': 'Utility', 'icon': '💡'},
+    //{'name': 'Utility', 'icon': '💡'},
     {'name': 'Other', 'icon': '🔍'},
   ];
 
@@ -80,9 +80,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
       case 'Shopping':
         selectedIcon = Icons.shopping_cart;
         break;
-      case 'Kids':
-        selectedIcon = Icons.child_care;
-        break;
+      // case 'Kids':
+      //   selectedIcon = Icons.child_care;
+      //   break;
       case 'Entertainment':
         selectedIcon = Icons.theaters;
         break;
