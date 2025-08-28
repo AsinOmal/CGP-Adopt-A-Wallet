@@ -26,4 +26,4 @@ The **Financial Manager App** is designed to help users manage their finances ef
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/UdaraWickramarathne/financial_manager_app_flutter
+   git clo
