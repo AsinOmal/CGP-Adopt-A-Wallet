@@ -26,4 +26,4 @@ The **Financial Manager App** is designed to help users manage their finances ef
 1. **Clone the repository**:
 
    ```bash
-   git clo
+   git clone https://github.com/AsinOmal/CGP-Adopt-A-Wallet
