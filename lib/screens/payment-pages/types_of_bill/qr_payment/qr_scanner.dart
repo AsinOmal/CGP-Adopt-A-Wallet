@@ -123,9 +123,11 @@ class _QRScannerState extends State<QRScanner> {
         children: [
           MobileScanner(
             controller: cameraController,
-            allowDuplicates: true,
-            onDetect: (barcode, args) {
-              final String code = barcode.rawValue ?? "";
+            onDetect: (capture) {
+              if (capture.barcodes.isEmpty) {
+                return;
+              }
+              final String code = capture.barcodes.first.rawValue ?? "";
               handleQRCodeDetection(code);
             },
           ),
@@ -170,7 +172,7 @@ class _QRScannerState extends State<QRScanner> {
               ),
             ),
           ),
-           Align(
+          Align(
             alignment: const AlignmentDirectional(0, -0.7),
             child: Text(
               AppLocalizations.of(context).translate('scan_shop_qr'),

@@ -1,30 +1,63 @@
-# Financial Manager App
+# Adopt A Wallet
 
-The **Financial Manager App** is designed to help users manage their finances efficiently by tracking income and expenses in real-time, setting budget plans, receiving bill and loan reminders, and much more. This app empowers users to take control of their financial health through a user-friendly interface with powerful features.
+Adopt A Wallet is a Flutter finance app for tracking income and expenses, managing budgets, scheduling reminders, monitoring goals, and reviewing spending reports.
 
 ## Features
 
-- **Real-time Expense Tracking**: Track income and expenses instantly, and categorize transactions for easy management.
-- **Budget Management**: Set monthly budget plans and get notified when you are nearing your budget limits.
-- **Bill and Loan Reminders**: Schedule bill and loan payment reminders to avoid missed deadlines.
-- **Financial Goals**: Set and monitor your financial goals, and track progress over time.
-- **Detailed Reports**: Generate reports and analytics for a clear understanding of your spending habits.
-- **Multi-language Support**: The app offers both Sinhala and English languages.
-- **Secure Data**: All user data is encrypted to ensure the highest level of privacy and security.
-- **Currency Converter**: Built-in converter for real-time currency exchange rates.
-- **Custom Notifications**: Receive customizable notifications for important financial updates.
-  
+- Real-time income and expense tracking
+- Budget planning and budget limit notifications
+- Bill and loan reminders
+- Financial goals with progress tracking
+- Reports and analytics
+- Sinhala and English language support
+- Currency conversion
+- Feedback, local notifications, QR payments, and card management
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
+- Flutter 3.41.6 or newer
+- Dart 3.11 or newer
+- Android SDK 36
+- Android emulator or physical Android device
 
-- **Flutter**: Ensure that Flutter is installed on your machine.
-  - You can download Flutter from the official website: [Flutter Installation](https://flutter.dev/docs/get-started/install)
+## Setup
 
-### Installation
-
-1. **Clone the repository**:
+1. Install dependencies:
 
    ```bash
-   git clone https://github.com/UdaraWickramarathne/financial_manager_app_flutter
+   flutter pub get
+   ```
+
+2. Create the ignored local email credentials file:
+
+   ```bash
+   cp lib/data/keys.example.dart lib/data/keys.dart
+   ```
+
+   Add real credentials in `lib/data/keys.dart` when email, OTP, or feedback sending needs to work:
+
+   ```dart
+   const String username = 'your-gmail-address';
+   const String password = 'your-gmail-app-password';
+   ```
+
+   Empty values let the project compile, but email sending will fail until real credentials are supplied.
+
+3. Start an Android emulator, then run:
+
+   ```bash
+   flutter run -d emulator-5554
+   ```
+
+   If your device id is different, list devices first:
+
+   ```bash
+   flutter devices
+   flutter run -d <device-id>
+   ```
+
+## Android Notes
+
+- The Android project targets `compileSdk 36`.
+- The Gradle wrapper is `8.7`, Android Gradle Plugin is `8.6.0`, and Kotlin is `2.1.0`.
+- A root Gradle compatibility hook supplies namespaces for older Flutter plugins that still declare only an Android manifest package.

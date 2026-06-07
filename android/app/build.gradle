@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.fin"
-    compileSdk = 34
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -24,7 +24,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion flutter.minSdkVersion
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.fin"
         // You can update the following values to match your application needs.

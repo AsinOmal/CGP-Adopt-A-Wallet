@@ -23,7 +23,7 @@ ThemeData lightMode = ThemeData(
     secondary: Colors.white,
     secondaryFixed: Colors.black,
   ),
-  bottomAppBarTheme: BottomAppBarTheme(
+  bottomAppBarTheme: BottomAppBarThemeData(
     color: Colors.grey[200]!,
   ),
 );
@@ -51,7 +51,7 @@ ThemeData darkMode = ThemeData(
       color: Colors.white,
     ),
   ),
-  bottomAppBarTheme: BottomAppBarTheme(
+  bottomAppBarTheme: BottomAppBarThemeData(
     color: Colors.grey[900]!,
   ),
 );

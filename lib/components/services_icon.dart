@@ -7,6 +7,7 @@ class ServicesIcon extends StatelessWidget {
   final Color? foregroundColor;
   final String text;
   final VoidCallback onPressed;
+  final double width;
 
   const ServicesIcon({
     super.key,
@@ -15,6 +16,7 @@ class ServicesIcon extends StatelessWidget {
     required this.foregroundColor,
     required this.text,
     required this.onPressed,
+    this.width = 100,
   });
 
   @override
@@ -26,7 +28,7 @@ class ServicesIcon extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(15),
       ),
-      width: 100,
+      width: width,
       height: 100,
       child: Column(
         children: [
@@ -62,6 +64,9 @@ class ServicesIcon extends StatelessWidget {
             style: const TextStyle(
               fontSize: 12,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
           ),
         ],
       ),

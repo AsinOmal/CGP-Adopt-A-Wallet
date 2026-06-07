@@ -12,6 +12,20 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(":app")
 }
+subprojects {
+    plugins.withId("com.android.library") {
+        def androidExtension = project.extensions.findByName("android")
+        if (androidExtension != null && androidExtension.namespace == null) {
+            def manifestFile = project.file("src/main/AndroidManifest.xml")
+            if (manifestFile.exists()) {
+                def packageName = new XmlSlurper(false, false).parse(manifestFile).@package.text()
+                if (packageName) {
+                    androidExtension.namespace = packageName
+                }
+            }
+        }
+    }
+}
 
 
 tasks.register("clean", Delete) {

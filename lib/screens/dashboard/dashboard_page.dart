@@ -298,81 +298,80 @@ class _DashboardState extends State<Dashboard> {
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        ServicesIcon(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const TransactionsPage(),
-                            ));
-                          },
-                          backgroundColor: Colors.blue[100],
-                          text: 'transactions',
-                          icon: Icons.monetization_on_outlined,
-                          foregroundColor: Colors.blue,
-                        ),
-                        ServicesIcon(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const AnalysisPage(),
-                            ));
-                          },
-                          backgroundColor:
-                              const Color.fromARGB(255, 251, 187, 251),
-                          text: 'reports',
-                          icon: Icons.file_copy_outlined,
-                          foregroundColor:
-                              const Color.fromARGB(255, 255, 98, 255),
-                        ),
-                        ServicesIcon(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const ReminderPage(),
-                            ));
-                          },
-                          backgroundColor:
-                              const Color.fromARGB(255, 251, 218, 187),
-                          text: 'reminders',
-                          icon: Icons.alarm,
-                          foregroundColor:
-                              const Color.fromARGB(255, 253, 159, 71),
-                        ),
-                        ServicesIcon(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const GoalPage(),
-                            ));
-                          },
-                          backgroundColor:
-                              const Color.fromARGB(255, 187, 251, 190),
-                          text: 'goals',
-                          icon: Icons.stairs_outlined,
-                          foregroundColor:
-                              const Color.fromARGB(255, 56, 250, 66),
-                        ),
-                        ServicesIcon(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const BudgetPage(),
-                            ));
-                          },
-                          backgroundColor:
-                              const Color.fromARGB(255, 246, 187, 251),
-                          text: 'budget',
-                          icon: Icons.account_balance_wallet,
-                          foregroundColor:
-                              const Color.fromARGB(255, 146, 56, 250),
-                        ),
-                      ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                const runSpacing = 2.0;
+                const itemSpacing = 6.0;
+                final itemWidth =
+                    (constraints.maxWidth - (itemSpacing * 3)) / 4;
+
+                return Wrap(
+                  spacing: itemSpacing,
+                  runSpacing: runSpacing,
+                  children: [
+                    ServicesIcon(
+                      width: itemWidth,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const TransactionsPage(),
+                        ));
+                      },
+                      backgroundColor: Colors.blue[100],
+                      text: 'transactions',
+                      icon: Icons.monetization_on_outlined,
+                      foregroundColor: Colors.blue,
                     ),
-                  ),
-                ),
-              ],
+                    ServicesIcon(
+                      width: itemWidth,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AnalysisPage(),
+                        ));
+                      },
+                      backgroundColor: const Color.fromARGB(255, 251, 187, 251),
+                      text: 'reports',
+                      icon: Icons.file_copy_outlined,
+                      foregroundColor: const Color.fromARGB(255, 255, 98, 255),
+                    ),
+                    ServicesIcon(
+                      width: itemWidth,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ReminderPage(),
+                        ));
+                      },
+                      backgroundColor: const Color.fromARGB(255, 251, 218, 187),
+                      text: 'reminders',
+                      icon: Icons.alarm,
+                      foregroundColor: const Color.fromARGB(255, 253, 159, 71),
+                    ),
+                    ServicesIcon(
+                      width: itemWidth,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const GoalPage(),
+                        ));
+                      },
+                      backgroundColor: const Color.fromARGB(255, 187, 251, 190),
+                      text: 'goals',
+                      icon: Icons.stairs_outlined,
+                      foregroundColor: const Color.fromARGB(255, 56, 250, 66),
+                    ),
+                    ServicesIcon(
+                      width: itemWidth,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const BudgetPage(),
+                        ));
+                      },
+                      backgroundColor: const Color.fromARGB(255, 246, 187, 251),
+                      text: 'budget',
+                      icon: Icons.account_balance_wallet,
+                      foregroundColor: const Color.fromARGB(255, 146, 56, 250),
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 10),
             Row(
