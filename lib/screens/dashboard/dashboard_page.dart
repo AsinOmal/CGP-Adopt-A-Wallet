@@ -300,17 +300,17 @@ class _DashboardState extends State<Dashboard> {
             const SizedBox(height: 10),
             LayoutBuilder(
               builder: (context, constraints) {
-                const runSpacing = 2.0;
-                const itemSpacing = 6.0;
-                final itemWidth =
-                    (constraints.maxWidth - (itemSpacing * 3)) / 4;
+                final itemWidth = constraints.maxWidth / 5;
 
-                return Wrap(
-                  spacing: itemSpacing,
-                  runSpacing: runSpacing,
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ServicesIcon(
                       width: itemWidth,
+                      height: 88,
+                      iconDiameter: 52,
+                      iconSize: 34,
+                      labelFontSize: 10.5,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const TransactionsPage(),
@@ -323,6 +323,10 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     ServicesIcon(
                       width: itemWidth,
+                      height: 88,
+                      iconDiameter: 52,
+                      iconSize: 34,
+                      labelFontSize: 10.5,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const AnalysisPage(),
@@ -335,6 +339,10 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     ServicesIcon(
                       width: itemWidth,
+                      height: 88,
+                      iconDiameter: 52,
+                      iconSize: 34,
+                      labelFontSize: 10.5,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const ReminderPage(),
@@ -347,6 +355,10 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     ServicesIcon(
                       width: itemWidth,
+                      height: 88,
+                      iconDiameter: 52,
+                      iconSize: 34,
+                      labelFontSize: 10.5,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const GoalPage(),
@@ -359,6 +371,10 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     ServicesIcon(
                       width: itemWidth,
+                      height: 88,
+                      iconDiameter: 52,
+                      iconSize: 34,
+                      labelFontSize: 10.5,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const BudgetPage(),

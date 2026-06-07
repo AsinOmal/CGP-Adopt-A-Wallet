@@ -8,6 +8,10 @@ class ServicesIcon extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final double width;
+  final double height;
+  final double iconDiameter;
+  final double iconSize;
+  final double labelFontSize;
 
   const ServicesIcon({
     super.key,
@@ -17,6 +21,10 @@ class ServicesIcon extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.width = 100,
+    this.height = 100,
+    this.iconDiameter = 60,
+    this.iconSize = 40,
+    this.labelFontSize = 12,
   });
 
   @override
@@ -29,40 +37,35 @@ class ServicesIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       width: width,
-      height: 100,
+      height: height,
       child: Column(
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),
               elevation: 0,
-              padding:
-                  EdgeInsets.zero, // Remove default padding from the button
+              padding: EdgeInsets.zero,
             ),
             onPressed: onPressed,
             child: Container(
-              width: 60,
-              height: 60,
+              width: iconDiameter,
+              height: iconDiameter,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: backgroundColor,
               ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.all(10.0), // Add padding around the icon
-                child: Icon(
-                  icon,
-                  size: 40,
-                  color: foregroundColor,
-                ),
+              child: Icon(
+                icon,
+                size: iconSize,
+                color: foregroundColor,
               ),
             ),
           ),
           const SizedBox(height: 6),
           Text(
             AppLocalizations.of(context).translate(text),
-            style: const TextStyle(
-              fontSize: 12,
+            style: TextStyle(
+              fontSize: labelFontSize,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
